@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Review Quiz"
+  short_description: "Evidence-backed PR reviews with quizzes and inline findings"
+  default_prompt: "Use $pr-review-quiz to review this pull request and build the HTML walkthrough. Keep the run read-only unless I explicitly ask to publish."

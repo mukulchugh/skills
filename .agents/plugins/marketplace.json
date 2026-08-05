@@ -1,0 +1,20 @@
+{
+  "name": "mukulchugh-skills",
+  "interface": {
+    "displayName": "Mukul Chugh Skills"
+  },
+  "plugins": [
+    {
+      "name": "pr-review-quiz",
+      "source": {
+        "source": "local",
+        "path": "./plugins/pr-review-quiz"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

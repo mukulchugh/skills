@@ -1,0 +1,18 @@
+{
+  "name": "pr-review-quiz",
+  "version": "1.0.0",
+  "description": "Evidence-backed pull request review, logical review units, inline findings, and a portable HTML walkthrough.",
+  "author": {
+    "name": "Mukul Chugh"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "PR Review Quiz",
+    "shortDescription": "Review PRs as evidence-backed logical units.",
+    "longDescription": "Reviews a frozen GitHub pull request with native agent passes, verifies findings against source, and renders a persistent keyboard-navigable HTML walkthrough.",
+    "developerName": "Mukul Chugh",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Use $pr-review-quiz to review this pull request and build the HTML walkthrough. Keep the run read-only unless I explicitly ask to publish."
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "mukulchugh-skills",
+  "owner": {
+    "name": "Mukul Chugh"
+  },
+  "metadata": {
+    "description": "Portable agent skills for software engineering workflows."
+  },
+  "plugins": [
+    {
+      "name": "pr-review-quiz",
+      "source": "./plugins/pr-review-quiz",
+      "description": "Review a pull request as evidence-backed logical units and a persistent HTML walkthrough.",
+      "version": "1.0.0"
+    }
+  ]
+}

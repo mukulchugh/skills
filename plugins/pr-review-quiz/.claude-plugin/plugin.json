@@ -1,0 +1,13 @@
+{
+  "name": "pr-review-quiz",
+  "version": "1.0.0",
+  "description": "Evidence-backed pull request review, logical review units, inline findings, and a portable HTML walkthrough.",
+  "author": {
+    "name": "Mukul Chugh",
+    "url": "https://github.com/mukulchugh"
+  },
+  "homepage": "https://github.com/mukulchugh/skills/tree/main/plugins/pr-review-quiz",
+  "repository": "https://github.com/mukulchugh/skills",
+  "license": "MIT",
+  "keywords": ["pull-request", "code-review", "github", "agent-skill"]
+}

@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+"""Validate the portable plugin package with the standard library only."""
+
+from __future__ import annotations
+
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+PLUGIN = ROOT / "plugins" / "pr-review-quiz"
+SKILL = PLUGIN / "skills" / "pr-review-quiz"
+NAME = "pr-review-quiz"
+VERSION = "1.0.0"
+
+
+def load(relative: str) -> dict:
+    return json.loads((ROOT / relative).read_text(encoding="utf-8"))
+
+
+def main() -> None:
+    codex_market = load(".agents/plugins/marketplace.json")
+    claude_market = load(".claude-plugin/marketplace.json")
+    cursor_market = load(".cursor-plugin/marketplace.json")
+    codex_plugin = load("plugins/pr-review-quiz/.codex-plugin/plugin.json")
+    claude_plugin = load("plugins/pr-review-quiz/.claude-plugin/plugin.json")
+    cursor_plugin = load("plugins/pr-review-quiz/.cursor-plugin/plugin.json")
+
+    assert codex_market["plugins"][0]["name"] == NAME
+    assert claude_market["plugins"][0]["name"] == NAME
+    assert cursor_market["plugins"][0]["name"] == NAME
+    for manifest in (codex_plugin, claude_plugin, cursor_plugin):
+        assert manifest["name"] == NAME
+        assert manifest["version"] == VERSION
+
+    skill_text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+    assert skill_text.startswith("---\nname: pr-review-quiz\n")
+    for relative in ("scripts/parse_diff.py", "scripts/render_review.py"):
+        subprocess.run([sys.executable, str(SKILL / relative), "--self-check"], check=True)
+
+    forbidden = (
+        "guided" + "review",
+        "artery" + "labs",
+        "nshn" + "tarora",
+        "abstrac" + "tions",
+    )
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or ".git" in path.parts or path.suffix not in {".md", ".json", ".yaml", ".yml", ".py"}:
+            continue
+        content = path.read_text(encoding="utf-8").casefold()
+        assert not any(term in content for term in forbidden), f"forbidden attribution in {path}"
+
+    print("package validation passed")
+
+
+if __name__ == "__main__":
+    main()
