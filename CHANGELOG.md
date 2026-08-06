@@ -18,6 +18,8 @@ Dark mode, a theme control that remembers, and the brand mark in the header.
   so a dark reader never gets a white flash.
 - **Brand mark** in the first header pill, alongside the wordmark. Inlined as a data
   URI in both light and dark variants, so the artifact still opens offline.
+- **Footer** on the artifact crediting the author, linking the portfolio and the
+  repository. It carries the brand mark and follows the theme like everything else.
 - **`plan fixes`** is now a documented read-only operation. The runway's fourth card
   had been offering it as prose because the verb did not exist — pasting it would
   have fallen through to a plain `review`.

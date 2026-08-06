@@ -44,6 +44,7 @@ ICON_SPRITE = """<svg width="0" height="0" style="position:absolute" aria-hidden
 <symbol id="i-check" viewBox="0 0 16 16"><path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z"/></symbol>\
 <symbol id="i-sun" viewBox="0 0 16 16"><path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-1.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm5.657-8.157a.75.75 0 0 1 0 1.061l-1.061 1.06a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.06-1.06a.75.75 0 0 1 1.06 0Zm-9.193 9.193a.75.75 0 0 1 0 1.06l-1.06 1.061a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l1.06-1.06a.75.75 0 0 1 1.06 0ZM8 0a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V.75A.75.75 0 0 1 8 0ZM3 8a.75.75 0 0 1-.75.75H.75a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 3 8Zm13 0a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 16 8ZM8 13a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 13ZM2.343 2.343a.75.75 0 0 1 1.061 0l1.06 1.061a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-1.06-1.06a.75.75 0 0 1 0-1.06Zm9.193 9.193a.75.75 0 0 1 1.06 0l1.061 1.06a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-1.06-1.06a.75.75 0 0 1 0-1.06Z"/></symbol>\
 <symbol id="i-moon" viewBox="0 0 16 16"><path d="M9.598 1.591a.749.749 0 0 1 .785-.175 7.001 7.001 0 1 1-8.967 8.967.75.75 0 0 1 .961-.96 5.5 5.5 0 0 0 7.046-7.046.75.75 0 0 1 .175-.786Zm1.616 1.945a7 7 0 0 1-7.678 7.678 5.499 5.499 0 1 0 7.678-7.678Z"/></symbol>\
+<symbol id="i-star" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"/></symbol>\
 <symbol id="i-tick" viewBox="0 0 16 16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></symbol>\
 <symbol id="i-file" viewBox="0 0 16 16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></symbol>\
 <symbol id="i-book" viewBox="0 0 16 16"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"/></symbol>\
@@ -867,6 +868,13 @@ details[open] > summary .caret { transform: rotate(90deg); }
 .modal::backdrop { background: rgba(10, 10, 10, .40); backdrop-filter: blur(2px); }
 .modal-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
 .modal-head .btn { font-size: 20px; line-height: 1; }
+.page-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-2) var(--space-3); margin: var(--space-10) 0 0; padding: var(--space-5) clamp(var(--space-4), 3vw, var(--space-8)) var(--space-14); border-top: 1px solid var(--line); color: var(--muted); font-size: var(--text-sm); }
+.foot-mark { width: 17px; height: 16px; background-image: var(--logo); background-size: contain; background-repeat: no-repeat; background-position: center; opacity: .75; }
+.foot-sep { width: 1px; height: 13px; background: var(--line-strong); }
+.page-foot a { color: var(--ink-soft); font-weight: 500; text-decoration: none; }
+.page-foot a:hover { color: var(--accent); text-decoration: underline; }
+.foot-star { display: inline-flex; align-items: center; gap: var(--space-2); }
+.foot-star .icon { width: 13px; height: 13px; }
 .unit-announcer { position: fixed; }
 /* ── Responsive ladder ──────────────────────────────────────────────
    1440+  three columns: TOC · content · trail
@@ -934,6 +942,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
 }
 @media print {
   .nav, .dock, .skip-link, .next-actions, .toc { display: none !important; }
+  .page-foot { border-top: 1px solid #ddd; padding-bottom: 0; }
   .shell { display: block; }.workspace { padding: 0; }.unit { display: block; page-break-before: always; }
   .summary, .file { box-shadow: none; }.reviewed-action { display: none; }
 }
@@ -1938,6 +1947,12 @@ def render_html(data: dict[str, Any], writer: tuple[str, str] | None = None) -> 
 <span class="footer-state" id="footer-state">Module 1 of {len(units)}</span>
 <button type="button" class="btn btn-ghost btn-icon" id="next" aria-label="Next module" title="Next module (right arrow key)">{icon("right")}</button></div>
 <button type="button" class="btn btn-accent reviewed-action" id="mark-reviewed" aria-pressed="false">Mark reviewed</button></div>
+<footer class="page-foot">
+<span class="foot-mark" role="img" aria-label="Mukul Chugh"></span>
+<span>Built by <a href="https://www.mukulchugh.com">Mukul Chugh</a></span>
+<span class="foot-sep" aria-hidden="true"></span>
+<a class="foot-star" href="https://github.com/mukulchugh/skills">{icon("star")} Star pr-walkthrough on GitHub</a>
+</footer>
 <div class="sr-only unit-announcer" id="unit-announcer" aria-live="polite"></div>
 <script>{SCRIPT}</script></body></html>'''
 
