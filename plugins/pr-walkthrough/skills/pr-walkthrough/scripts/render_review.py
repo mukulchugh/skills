@@ -1951,7 +1951,7 @@ def render_html(data: dict[str, Any], writer: tuple[str, str] | None = None) -> 
 <span class="foot-mark" role="img" aria-label="Mukul Chugh"></span>
 <span>Built by <a href="https://www.mukulchugh.com">Mukul Chugh</a></span>
 <span class="foot-sep" aria-hidden="true"></span>
-<a class="foot-star" href="https://github.com/mukulchugh/skills">{icon("star")} Star pr-walkthrough on GitHub</a>
+<a class="foot-star" href="https://github.com/mukulchugh/skills">{icon("star")} Star on GitHub</a>
 </footer>
 <div class="sr-only unit-announcer" id="unit-announcer" aria-live="polite"></div>
 <script>{SCRIPT}</script></body></html>'''
