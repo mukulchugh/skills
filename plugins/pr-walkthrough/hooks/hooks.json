@@ -1,5 +1,5 @@
 {
-  "description": "pr-review-quiz guardrails: block unconfirmed GitHub writes while a review is in flight, inject the cached stack/MCP profile at session start, and report when a manual walkthrough finishes.",
+  "description": "pr-walkthrough guardrails: block unconfirmed GitHub writes while a review is in flight, inject the cached stack/MCP profile at session start, and report when a manual walkthrough finishes.",
   "hooks": {
     "PreToolUse": [
       {

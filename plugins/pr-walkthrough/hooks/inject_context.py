@@ -20,13 +20,13 @@ HTTPS_REMOTE = re.compile(r"^(?:https?|ssh|git)://(?:[^@/]+@)?github\.com[/:]([^
 
 
 def library_root() -> Path:
-    configured = os.environ.get("PR_REVIEW_QUIZ_HOME")
+    configured = os.environ.get("PR_WALKTHROUGH_HOME")
     if configured:
         return Path(configured).expanduser()
     data_home = os.environ.get("XDG_DATA_HOME")
     if data_home:
-        return Path(data_home).expanduser() / "pr-review-quiz"
-    return Path.home() / ".local" / "share" / "pr-review-quiz"
+        return Path(data_home).expanduser() / "pr-walkthrough"
+    return Path.home() / ".local" / "share" / "pr-walkthrough"
 
 
 def parse_github_remote(url: str) -> tuple[str, str] | None:
@@ -87,7 +87,7 @@ def build_context_text(profile: dict[str, Any], owner: str, repo: str) -> str | 
     if not stack_text and not servers_text:
         return None
 
-    parts = [f"pr-review-quiz cached profile for {owner}/{repo}."]
+    parts = [f"pr-walkthrough cached profile for {owner}/{repo}."]
     if stack_text:
         parts.append(f"Stack: {stack_text}.")
     if servers_text:

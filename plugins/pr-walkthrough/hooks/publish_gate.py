@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deny unconfirmed GitHub write operations while a pr-review-quiz review is in flight."""
+"""Deny unconfirmed GitHub write operations while a pr-walkthrough review is in flight."""
 
 from __future__ import annotations
 
@@ -29,13 +29,13 @@ GITHUB_SERVER = re.compile(r"github", re.IGNORECASE)
 
 
 def library_root() -> Path:
-    configured = os.environ.get("PR_REVIEW_QUIZ_HOME")
+    configured = os.environ.get("PR_WALKTHROUGH_HOME")
     if configured:
         return Path(configured).expanduser()
     data_home = os.environ.get("XDG_DATA_HOME")
     if data_home:
-        return Path(data_home).expanduser() / "pr-review-quiz"
-    return Path.home() / ".local" / "share" / "pr-review-quiz"
+        return Path(data_home).expanduser() / "pr-walkthrough"
+    return Path.home() / ".local" / "share" / "pr-walkthrough"
 
 
 def load_live_markers(pending_dir: Path) -> list[dict[str, Any]]:
@@ -92,7 +92,7 @@ def build_reason(marker: dict[str, Any]) -> str:
     repository = marker.get("repository", "unknown/unknown")
     pr = marker.get("pr", "?")
     return (
-        f"A pr-review-quiz review is in flight for {repository}#{pr}. "
+        f"A pr-walkthrough review is in flight for {repository}#{pr}. "
         "Inline comments must be previewed in full and confirmed by the user "
         "before any GitHub write happens. Show the user the full pending "
         "review; their explicit confirmation is what clears the marker, "

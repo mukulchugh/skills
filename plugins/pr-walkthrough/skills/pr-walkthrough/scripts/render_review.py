@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and render a PR Review Quiz guide as self-contained HTML and Markdown."""
+"""Validate and render a PR Walkthrough guide as self-contained HTML and Markdown."""
 
 from __future__ import annotations
 
@@ -785,7 +785,7 @@ const pages = panels.filter(panel => !panel.classList.contains('closing') && !pa
 const links = [...document.querySelectorAll('.unit-link')];
 const nav = document.querySelector('.nav');
 const mark = document.getElementById('mark-reviewed');
-const key = 'pr-review-quiz:' + document.body.dataset.storageKey;
+const key = 'pr-walkthrough:' + document.body.dataset.storageKey;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let current = 0;
 let saved = {};
@@ -1234,7 +1234,7 @@ def render_next_actions(meta: dict[str, Any], units: int, findings: int) -> str:
             "Comments on the PR",
             "Post the findings inline",
             "Every finding becomes a comment on the exact diff line it belongs to.",
-            f"/pr-review-quiz submit {target}",
+            f"/pr-walkthrough submit {target}",
         ),
         (
             "",
@@ -1242,7 +1242,7 @@ def render_next_actions(meta: dict[str, Any], units: int, findings: int) -> str:
             "Adds a Wiki page",
             "Write up the codebase notes",
             "Architecture, flows, invariants and gotchas go to the repo Wiki. Existing pages stay untouched.",
-            f"/pr-review-quiz publish wiki {target}",
+            f"/pr-walkthrough publish wiki {target}",
         ),
         (
             "",
@@ -1250,7 +1250,7 @@ def render_next_actions(meta: dict[str, Any], units: int, findings: int) -> str:
             "Opens issues",
             "Track the follow-ups",
             "One issue per follow-up, deduped against open and closed issues first.",
-            f"/pr-review-quiz create issues {target}",
+            f"/pr-walkthrough create issues {target}",
         ),
         (
             "",
@@ -1271,7 +1271,7 @@ def render_next_actions(meta: dict[str, Any], units: int, findings: int) -> str:
         for variant, glyph, kind, title, body, command in actions
     )
     token = (
-        f'pr-review-quiz complete {target} head={meta["head_sha"][:12]} units={units}/{units}'
+        f'pr-walkthrough complete {target} head={meta["head_sha"][:12]} units={units}/{units}'
     )
     return (
         '<section class="next-actions" aria-labelledby="next-actions-title">'
@@ -1706,7 +1706,7 @@ def render_html(data: dict[str, Any], writer: tuple[str, str] | None = None) -> 
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Geist:wght@400;500&family=JetBrains+Mono:wght@400;500;700&family=Geist+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
-<title>{esc(meta['repository'])}#{meta['pr_number']} · PR Review Quiz</title>
+<title>{esc(meta['repository'])}#{meta['pr_number']} · PR Walkthrough</title>
 <style>{STYLES}</style></head>
 <body data-storage-key="{esc(storage_key)}"{writer_attrs}>{ICON_SPRITE}
 <a class="skip-link" href="#review-workspace">Skip to review</a>
@@ -1836,11 +1836,17 @@ def render_wiki(data: dict[str, Any]) -> str:
 def library_root(override: Path | None = None) -> Path:
     if override is not None:
         return override.expanduser()
-    configured = os.environ.get("PR_REVIEW_QUIZ_HOME")
+    configured = os.environ.get("PR_WALKTHROUGH_HOME") or os.environ.get("PR_REVIEW_QUIZ_HOME")
     if configured:
         return Path(configured).expanduser()
     data_home = os.environ.get("XDG_DATA_HOME")
-    return (Path(data_home).expanduser() if data_home else Path.home() / ".local" / "share") / "pr-review-quiz"
+    base = Path(data_home).expanduser() if data_home else Path.home() / ".local" / "share"
+    current = base / "pr-walkthrough"
+    # Reviews archived before the rename stay discoverable; new ones go to the new root.
+    legacy = base / "pr-review-quiz"
+    if not current.exists() and legacy.exists():
+        return legacy
+    return current
 
 
 def safe_segment(value: str) -> str:
@@ -2122,7 +2128,7 @@ def self_check() -> None:
     assert "Nothing to fix here" in clean_page
     check_css_coverage(page, clean_page)
     assert 'class="next-actions"' in page
-    assert "/pr-review-quiz submit owner/repo#7" in page
+    assert "/pr-walkthrough submit owner/repo#7" in page
     assert 'id="completion"' in page
     assert "Copy completion token" in page
     assert "data-progress-endpoint" not in page
@@ -2146,7 +2152,7 @@ def self_check() -> None:
     assert 'id="mark-reviewed"' in page
     assert page.index('class="footer-nav"') < page.index('id="mark-reviewed"')
     assert "## Review walkthrough" in wiki
-    with TemporaryDirectory(prefix="pr-review-quiz-") as directory:
+    with TemporaryDirectory(prefix="pr-walkthrough-") as directory:
         root = Path(directory) / "library"
         guide_json = json.dumps(data)
         snapshot = persist_snapshot(data, guide_json, page, wiki, root)

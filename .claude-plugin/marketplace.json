@@ -8,10 +8,10 @@
   },
   "plugins": [
     {
-      "name": "pr-review-quiz",
-      "source": "./plugins/pr-review-quiz",
+      "name": "pr-walkthrough",
+      "source": "./plugins/pr-walkthrough",
       "description": "Review a pull request as evidence-backed logical units and a persistent HTML walkthrough.",
-      "version": "1.1.0"
+      "version": "1.2.0"
     }
   ]
 }

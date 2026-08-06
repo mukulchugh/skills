@@ -4,6 +4,24 @@ All notable changes to this repository are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] — 2026-08-06
+
+Renamed from `pr-review-quiz` to `pr-walkthrough`.
+
+The quiz is thirteen optional questions in a side rail; the product is an
+evidence-backed review walkthrough with a publish gate. The old name led with the
+smallest feature and would have been wrong the moment the questions were dropped.
+
+### Changed
+
+- Skill, plugin and command are now `pr-walkthrough`. **Re-install to pick it up** —
+  the old plugin id no longer resolves.
+- The archive root moved to `~/.local/share/pr-walkthrough/`. Reviews written under
+  the old root stay discoverable: if the new root does not exist and the old one
+  does, the old one is still read.
+- `PR_WALKTHROUGH_HOME` overrides the archive root. `PR_REVIEW_QUIZ_HOME` is still
+  honoured as a fallback.
+
 ## [1.1.0] — 2026-08-06
 
 The review artifact becomes a workbench, and three things the workflow only
@@ -69,10 +87,11 @@ promised are now enforced.
 
 ## [1.0.0] — 2026-08-05
 
-Initial release. `pr-review-quiz` reviews a frozen pull request, partitions every
+Initial release, as `pr-review-quiz`. It reviews a frozen pull request, partitions every
 diff hunk into logical units, runs independent review lanes, verifies findings
 against cited source, and renders a persistent HTML walkthrough. Installs on
 Codex, Claude Code and Cursor from one package.
 
+[1.2.0]: https://github.com/mukulchugh/skills/releases/tag/v1.2.0
 [1.1.0]: https://github.com/mukulchugh/skills/releases/tag/v1.1.0
 [1.0.0]: https://github.com/mukulchugh/skills/releases/tag/v1.0.0

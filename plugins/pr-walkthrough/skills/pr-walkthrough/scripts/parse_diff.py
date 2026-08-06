@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Parse a frozen git diff into stable PR Review Quiz hunks."""
+"""Parse a frozen git diff into stable PR Walkthrough hunks."""
 
 from __future__ import annotations
 

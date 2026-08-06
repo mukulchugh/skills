@@ -4,9 +4,9 @@ Portable agent skills by Mukul Chugh. One package, installed natively by Codex,
 Claude Code and Cursor through each host's own plugin manifest. Python standard
 library only — no dependencies, no build step, no runtime service.
 
-## PR Review Quiz
+## PR Walkthrough
 
-`pr-review-quiz` reviews a frozen GitHub pull request. It partitions every real
+`pr-walkthrough` reviews a frozen GitHub pull request. It partitions every real
 diff hunk into logical review modules, runs independent review lanes, verifies
 each finding against cited source, and renders a self-contained HTML walkthrough
 you can read, archive or send to someone else.
@@ -44,32 +44,32 @@ On Claude Code a bundled hook enforces this; elsewhere the skill's own gate does
 
 ```text
 /plugin marketplace add mukulchugh/skills
-/plugin install pr-review-quiz@mukulchugh-skills
+/plugin install pr-walkthrough@mukulchugh-skills
 ```
 
 ### Codex
 
 ```text
 codex plugin marketplace add mukulchugh/skills
-codex plugin add pr-review-quiz@mukulchugh-skills
+codex plugin add pr-walkthrough@mukulchugh-skills
 ```
 
 ### Cursor
 
-Clone this repository, then copy or symlink `plugins/pr-review-quiz` to
-`~/.cursor/plugins/local/pr-review-quiz` and reload Cursor. The checked-in Cursor
+Clone this repository, then copy or symlink `plugins/pr-walkthrough` to
+`~/.cursor/plugins/local/pr-walkthrough` and reload Cursor. The checked-in Cursor
 marketplace manifest is ready for submission; once listed, `/add-plugin` works too.
 
 ## Use
 
 ```text
-/pr-review-quiz owner/repository#123                 read-only
-/pr-review-quiz submit owner/repository#123          posts inline comments
-/pr-review-quiz publish wiki owner/repository#123    writes a Wiki page
-/pr-review-quiz create issues owner/repository#123   opens issues
+/pr-walkthrough owner/repository#123                 read-only
+/pr-walkthrough submit owner/repository#123          posts inline comments
+/pr-walkthrough publish wiki owner/repository#123    writes a Wiki page
+/pr-walkthrough create issues owner/repository#123   opens issues
 ```
 
-Reviews are archived under `~/.local/share/pr-review-quiz/reviews/`, keyed by
+Reviews are archived under `~/.local/share/pr-walkthrough/reviews/`, keyed by
 repository, PR and head SHA, so any agent or shell can find the latest one:
 
 ```bash
@@ -85,7 +85,7 @@ progress to disk. Opt-in; the artifact works normally without it.
 **`--skeleton`** — `parse_diff.py --skeleton` emits a guide-shaped scaffold with the
 real hunks already grouped, so they never have to be assembled by hand.
 
-**Hooks** (Claude Code only, in `plugins/pr-review-quiz/hooks/`) — a publish gate
+**Hooks** (Claude Code only, in `plugins/pr-walkthrough/hooks/`) — a publish gate
 that blocks unconfirmed GitHub writes while a review is in flight, a background
 watcher that reports a finished walkthrough, and a session-start injector for the
 cached stack profile. Codex and Cursor behaviour is unchanged.

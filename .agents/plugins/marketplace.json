@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "pr-review-quiz",
+      "name": "pr-walkthrough",
       "source": {
         "source": "local",
-        "path": "./plugins/pr-review-quiz"
+        "path": "./plugins/pr-walkthrough"
       },
       "policy": {
         "installation": "AVAILABLE",

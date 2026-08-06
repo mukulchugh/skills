@@ -16,13 +16,13 @@ MAX_WALL_SECONDS = 8 * 60 * 60
 
 
 def library_root() -> Path:
-    configured = os.environ.get("PR_REVIEW_QUIZ_HOME")
+    configured = os.environ.get("PR_WALKTHROUGH_HOME")
     if configured:
         return Path(configured).expanduser()
     data_home = os.environ.get("XDG_DATA_HOME")
     if data_home:
-        return Path(data_home).expanduser() / "pr-review-quiz"
-    return Path.home() / ".local" / "share" / "pr-review-quiz"
+        return Path(data_home).expanduser() / "pr-walkthrough"
+    return Path.home() / ".local" / "share" / "pr-walkthrough"
 
 
 def iter_progress_paths(root: Path) -> list[Path]:
@@ -66,7 +66,7 @@ def check_and_stamp(progress_path: Path) -> str | None:
 
     repository = progress.get("repository", "unknown/unknown")
     pr = progress.get("pr", "?")
-    return f"pr-review-quiz: manual walkthrough finished for {repository}#{pr} ({reviewed}/{total} units reviewed)."
+    return f"pr-walkthrough: manual walkthrough finished for {repository}#{pr} ({reviewed}/{total} units reviewed)."
 
 
 def main() -> None:

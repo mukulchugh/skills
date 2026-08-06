@@ -33,7 +33,7 @@ Each grounding raises confidence in a finding; none substitutes for the source-l
 
 ## The cache
 
-Path: `<library_root>/context/<owner>--<repo>.json`, where `<library_root>` is `PR_REVIEW_QUIZ_HOME`, else `$XDG_DATA_HOME/pr-review-quiz`, else `~/.local/share/pr-review-quiz`.
+Path: `<library_root>/context/<owner>--<repo>.json`, where `<library_root>` is `PR_WALKTHROUGH_HOME`, else `$XDG_DATA_HOME/pr-walkthrough`, else `~/.local/share/pr-walkthrough`.
 
 ```json
 {
