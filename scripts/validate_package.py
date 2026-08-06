@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PLUGIN = ROOT / "plugins" / "pr-walkthrough"
 SKILL = PLUGIN / "skills" / "pr-walkthrough"
 NAME = "pr-walkthrough"
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 
 
 def load(relative: str) -> dict:

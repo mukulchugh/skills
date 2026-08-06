@@ -67,6 +67,7 @@ marketplace manifest is ready for submission; once listed, `/add-plugin` works t
 /pr-walkthrough submit owner/repository#123          posts inline comments
 /pr-walkthrough publish wiki owner/repository#123    writes a Wiki page
 /pr-walkthrough create issues owner/repository#123   opens issues
+/pr-walkthrough plan fixes owner/repository#123     read-only, proposes changes
 ```
 
 Reviews are archived under `~/.local/share/pr-walkthrough/reviews/`, keyed by

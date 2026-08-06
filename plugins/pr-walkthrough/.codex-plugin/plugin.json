@@ -1,6 +1,6 @@
 {
   "name": "pr-walkthrough",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Evidence-backed pull request review, logical review units, inline findings, and a portable HTML walkthrough.",
   "author": {
     "name": "Mukul Chugh"

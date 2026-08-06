@@ -15,8 +15,9 @@ Default to read-only `review` when the invocation does not use an explicit publi
 - `submit`: also submit one GitHub review containing validated inline comments.
 - `publish wiki`: also publish the structured learning page to the repository Wiki.
 - `create issues`: also create requested follow-up issues after duplicate search.
+- `plan fixes`: work through the existing findings and propose a concrete change for each. Writes nothing — no GitHub call, no edit to the working tree.
 
-Treat `submit`, `publish`, and `create` as separate external writes. Perform only the writes explicitly requested. A manual skill invocation alone does not authorize all three.
+`review` and `plan fixes` are read-only. Treat `submit`, `publish`, and `create` as separate external writes. Perform only the writes explicitly requested. A manual skill invocation alone does not authorize all three.
 
 The first review of a PR is full. On a rerun, default to incremental review from the head SHA recorded by the latest `pr-walkthrough` marker; use a full review when the user says `full`, no trustworthy marker exists, or the base changed. Incremental review still follows affected callers and contracts outside the new hunks. Never publish while a newer snapshot is being analyzed.
 
