@@ -1,16 +1,51 @@
 # Skills
 
-Portable agent skills by Mukul Chugh. The repository exposes the same skill bundle to Codex, Claude Code, and Cursor through each host's native plugin manifest.
+Portable agent skills by Mukul Chugh. One package, installed natively by Codex,
+Claude Code and Cursor through each host's own plugin manifest. Python standard
+library only — no dependencies, no build step, no runtime service.
 
 ## PR Review Quiz
 
-`pr-review-quiz` reviews a frozen GitHub pull request, partitions every real diff hunk into logical review units, runs independent native-agent review lanes, verifies findings against cited source, and renders a persistent keyboard-navigable HTML walkthrough. Tests are kept in separate units. GitHub comments, Wiki pages, and issues are written only when explicitly requested.
+`pr-review-quiz` reviews a frozen GitHub pull request. It partitions every real
+diff hunk into logical review modules, runs independent review lanes, verifies
+each finding against cited source, and renders a self-contained HTML walkthrough
+you can read, archive or send to someone else.
 
-GitHub writes require an explicit verb — a bare run never touches GitHub. Before any inline comment is posted, every comment is previewed in full: path, line, side, and body. That preview requires confirmation. A count is not confirmation.
+Not a summary of the diff. The walkthrough is built from the actual hunks, and
+the renderer refuses to build it unless every hunk is accounted for exactly once.
 
-Artifacts are archived under `~/.local/share/pr-review-quiz/reviews/` by default, so any local agent or CLI can retrieve the latest review.
+### What the walkthrough gives you
+
+- **Triage before reading.** Findings sit in a rail beside the diff and collapse
+  to a single row inline at the exact line they belong to.
+- **Evidence, not assertion.** Every finding carries quoted source, a confidence
+  score, and which review lanes reached it independently.
+- **What was ruled out.** Candidates that were investigated and cleared are
+  recorded with the reason — so the next reviewer doesn't re-open a settled
+  question.
+- **A flow diagram** of what the change actually does, built from the traced data
+  flow rather than the file list.
+- **Codebase notes** separating what was observed in the code from what was
+  inferred on top of it.
+- **Progress that persists**, per module, in the page itself.
+
+### Write safety
+
+A bare run never touches GitHub. Writes need an explicit verb, and each verb
+authorizes only the write it names.
+
+Before any inline comment is posted, every comment is printed in full — path,
+line, side, body — and requires confirmation. **A count is not confirmation.**
+On Claude Code a bundled hook enforces this; elsewhere the skill's own gate does.
 
 ## Install
+
+### Claude Code
+
+```text
+/plugin marketplace add mukulchugh/skills
+/plugin install pr-review-quiz@mukulchugh-skills
+```
 
 ### Codex
 
@@ -19,48 +54,52 @@ codex plugin marketplace add mukulchugh/skills
 codex plugin add pr-review-quiz@mukulchugh-skills
 ```
 
-### Claude Code
-
-Run these inside Claude Code:
-
-```text
-/plugin marketplace add mukulchugh/skills
-/plugin install pr-review-quiz@mukulchugh-skills
-```
-
 ### Cursor
 
-Clone this repository, then copy or symlink `plugins/pr-review-quiz` to `~/.cursor/plugins/local/pr-review-quiz` and reload Cursor. The checked-in Cursor marketplace manifest is ready for marketplace submission; after listing, the plugin can also be installed through Cursor's `/add-plugin` flow.
+Clone this repository, then copy or symlink `plugins/pr-review-quiz` to
+`~/.cursor/plugins/local/pr-review-quiz` and reload Cursor. The checked-in Cursor
+marketplace manifest is ready for submission; once listed, `/add-plugin` works too.
 
 ## Use
 
 ```text
-/pr-review-quiz owner/repository#123
-/pr-review-quiz submit owner/repository#123
-/pr-review-quiz publish wiki owner/repository#123
-/pr-review-quiz create issues owner/repository#123
+/pr-review-quiz owner/repository#123                 read-only
+/pr-review-quiz submit owner/repository#123          posts inline comments
+/pr-review-quiz publish wiki owner/repository#123    writes a Wiki page
+/pr-review-quiz create issues owner/repository#123   opens issues
 ```
 
-The first form is read-only. Publishing verbs authorize only the named GitHub write.
+Reviews are archived under `~/.local/share/pr-review-quiz/reviews/`, keyed by
+repository, PR and head SHA, so any agent or shell can find the latest one:
 
-## Live progress (`--serve`)
+```bash
+render_review.py --list-reviews
+render_review.py --latest owner/repository#123
+```
 
-The walkthrough renderer (`plugins/pr-review-quiz/skills/pr-review-quiz/scripts/render_review.py`) takes an optional `--serve` flag. It starts a localhost-only writer so the open HTML page can report reading progress back to disk as the reviewer works through it. Opt-in, off by default — the artifact renders and works completely normally without it.
+## Optional pieces
 
-## Hooks (Claude Code only)
+**`--serve`** — starts a localhost-only writer so the open page can record reading
+progress to disk. Opt-in; the artifact works normally without it.
 
-Three hooks ship in `plugins/pr-review-quiz/hooks/`:
+**`--skeleton`** — `parse_diff.py --skeleton` emits a guide-shaped scaffold with the
+real hunks already grouped, so they never have to be assembled by hand.
 
-- `publish_gate.py` — blocks unconfirmed GitHub writes while a review is in flight.
-- `watch_progress.py` — runs in the background and notifies the agent when the reader finishes the walkthrough.
-- `inject_context.py` — supplies the cached stack/integration profile at session start.
+**Hooks** (Claude Code only, in `plugins/pr-review-quiz/hooks/`) — a publish gate
+that blocks unconfirmed GitHub writes while a review is in flight, a background
+watcher that reports a finished walkthrough, and a session-start injector for the
+cached stack profile. Codex and Cursor behaviour is unchanged.
 
-Hooks are a Claude Code-only enhancement layer. Behavior on Codex and Cursor is unchanged.
-
-Validate the package without installing dependencies:
+## Develop
 
 ```bash
 python3 scripts/validate_package.py
 ```
+
+Checks every manifest, runs both script self-checks, and verifies each hook path
+exists and is executable. No dependencies to install. CI runs it on Linux, macOS
+and Windows.
+
+See [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 MIT licensed.

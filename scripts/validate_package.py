@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 import os
-import shlex
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -60,12 +60,15 @@ def main() -> None:
     for command in hook_commands(hooks_manifest):
         if "${CLAUDE_PLUGIN_ROOT}" not in command:
             continue
-        resolved = command.replace("${CLAUDE_PLUGIN_ROOT}", str(PLUGIN))
-        tokens = [token for token in shlex.split(resolved) if str(PLUGIN) in token]
-        assert tokens, f"hook command has no resolvable script path: {command}"
-        script = Path(tokens[0])
+        # Extract the path before substituting: shlex is POSIX-mode by default and
+        # eats the backslashes in a resolved Windows path, leaving nothing to check.
+        match = re.search(r"\$\{CLAUDE_PLUGIN_ROOT\}(\S*)", command)
+        assert match, f"hook command has no resolvable script path: {command}"
+        script = PLUGIN.joinpath(*match.group(1).strip("/").split("/"))
         assert script.exists(), f"hook command references a missing file: {command}"
-        assert os.access(script, os.X_OK), f"hook command is not executable: {command}"
+        # Windows has no executable bit; os.access(X_OK) there only restates exists().
+        if os.name != "nt":
+            assert os.access(script, os.X_OK), f"hook command is not executable: {command}"
 
     forbidden = (
         "guided" + "review",
