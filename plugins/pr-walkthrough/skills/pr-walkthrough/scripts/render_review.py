@@ -868,7 +868,7 @@ details[open] > summary .caret { transform: rotate(90deg); }
 .modal::backdrop { background: rgba(10, 10, 10, .40); backdrop-filter: blur(2px); }
 .modal-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
 .modal-head .btn { font-size: 20px; line-height: 1; }
-.page-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-2) var(--space-3); margin: var(--space-10) 0 0; padding: var(--space-5) clamp(var(--space-4), 3vw, var(--space-8)) var(--space-14); border-top: 1px solid var(--line); color: var(--muted); font-size: var(--text-sm); }
+.page-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: var(--space-2) var(--space-3); margin: var(--space-10) 0 0; padding: var(--space-5) clamp(var(--space-4), 3vw, var(--space-8)) var(--space-14); border-top: 1px solid var(--line); color: var(--muted); font-size: var(--text-sm); }
 .foot-mark { width: 17px; height: 16px; background-image: var(--logo); background-size: contain; background-repeat: no-repeat; background-position: center; opacity: .75; }
 .foot-sep { width: 1px; height: 13px; background: var(--line-strong); }
 .page-foot a { color: var(--ink-soft); font-weight: 500; text-decoration: none; }
