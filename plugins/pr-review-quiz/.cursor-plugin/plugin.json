@@ -1,7 +1,7 @@
 {
   "name": "pr-review-quiz",
   "displayName": "PR Review Quiz",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Evidence-backed pull request review, logical review units, inline findings, and a portable HTML walkthrough.",
   "author": {
     "name": "Mukul Chugh"

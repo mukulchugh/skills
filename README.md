@@ -6,6 +6,8 @@ Portable agent skills by Mukul Chugh. The repository exposes the same skill bund
 
 `pr-review-quiz` reviews a frozen GitHub pull request, partitions every real diff hunk into logical review units, runs independent native-agent review lanes, verifies findings against cited source, and renders a persistent keyboard-navigable HTML walkthrough. Tests are kept in separate units. GitHub comments, Wiki pages, and issues are written only when explicitly requested.
 
+GitHub writes require an explicit verb — a bare run never touches GitHub. Before any inline comment is posted, every comment is previewed in full: path, line, side, and body. That preview requires confirmation. A count is not confirmation.
+
 Artifacts are archived under `~/.local/share/pr-review-quiz/reviews/` by default, so any local agent or CLI can retrieve the latest review.
 
 ## Install
@@ -40,6 +42,20 @@ Clone this repository, then copy or symlink `plugins/pr-review-quiz` to `~/.curs
 ```
 
 The first form is read-only. Publishing verbs authorize only the named GitHub write.
+
+## Live progress (`--serve`)
+
+The walkthrough renderer (`plugins/pr-review-quiz/skills/pr-review-quiz/scripts/render_review.py`) takes an optional `--serve` flag. It starts a localhost-only writer so the open HTML page can report reading progress back to disk as the reviewer works through it. Opt-in, off by default — the artifact renders and works completely normally without it.
+
+## Hooks (Claude Code only)
+
+Three hooks ship in `plugins/pr-review-quiz/hooks/`:
+
+- `publish_gate.py` — blocks unconfirmed GitHub writes while a review is in flight.
+- `watch_progress.py` — runs in the background and notifies the agent when the reader finishes the walkthrough.
+- `inject_context.py` — supplies the cached stack/integration profile at session start.
+
+Hooks are a Claude Code-only enhancement layer. Behavior on Codex and Cursor is unchanged.
 
 Validate the package without installing dependencies:
 

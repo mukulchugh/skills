@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import json
+import os
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -13,11 +15,25 @@ ROOT = Path(__file__).resolve().parents[1]
 PLUGIN = ROOT / "plugins" / "pr-review-quiz"
 SKILL = PLUGIN / "skills" / "pr-review-quiz"
 NAME = "pr-review-quiz"
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 
 def load(relative: str) -> dict:
     return json.loads((ROOT / relative).read_text(encoding="utf-8"))
+
+
+def hook_commands(node: object) -> list[str]:
+    commands: list[str] = []
+    if isinstance(node, dict):
+        command = node.get("command")
+        if isinstance(command, str):
+            commands.append(command)
+        for value in node.values():
+            commands.extend(hook_commands(value))
+    elif isinstance(node, list):
+        for item in node:
+            commands.extend(hook_commands(item))
+    return commands
 
 
 def main() -> None:
@@ -39,6 +55,17 @@ def main() -> None:
     assert skill_text.startswith("---\nname: pr-review-quiz\n")
     for relative in ("scripts/parse_diff.py", "scripts/render_review.py"):
         subprocess.run([sys.executable, str(SKILL / relative), "--self-check"], check=True)
+
+    hooks_manifest = load("plugins/pr-review-quiz/hooks/hooks.json")
+    for command in hook_commands(hooks_manifest):
+        if "${CLAUDE_PLUGIN_ROOT}" not in command:
+            continue
+        resolved = command.replace("${CLAUDE_PLUGIN_ROOT}", str(PLUGIN))
+        tokens = [token for token in shlex.split(resolved) if str(PLUGIN) in token]
+        assert tokens, f"hook command has no resolvable script path: {command}"
+        script = Path(tokens[0])
+        assert script.exists(), f"hook command references a missing file: {command}"
+        assert os.access(script, os.X_OK), f"hook command is not executable: {command}"
 
     forbidden = (
         "guided" + "review",

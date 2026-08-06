@@ -72,9 +72,19 @@ Create UTF-8 JSON with this shape. Use `null` for missing old/new line numbers. 
       "side": "RIGHT",
       "unit_id": "retry-policy",
       "confidence": 9,
+      "found_by": ["correctness and reliability", "tests and compatibility"],
       "evidence": [
         { "path": "src/job.ts", "line": 11, "quote": "retryLimit: number" },
         { "path": "src/deserialize.ts", "line": 28, "quote": "return JSON.parse(raw) as Job" }
+      ]
+    }
+  ],
+  "disproved": [
+    {
+      "claim": "Two concurrent runners can both schedule the final retry.",
+      "why_not": "The attempt counter is incremented inside the same transaction that claims the job, so the second runner reads the incremented value.",
+      "evidence": [
+        { "path": "src/runner.ts", "line": 64, "quote": "await tx.update(job).set({ attempts: job.attempts + 1 })" }
       ]
     }
   ],
@@ -104,6 +114,8 @@ Create UTF-8 JSON with this shape. Use `null` for missing old/new line numbers. 
 - Use finding priority `P0` through `P3`; line must be positive and side `LEFT` or `RIGHT`.
 - Anchor `RIGHT` findings to a matching `new_line` and `LEFT` findings to a matching `old_line`. The renderer rejects unmatched anchors.
 - Set finding confidence from 7 through 10 and include at least one exact evidence quote with a positive source line. Evidence may point outside the diff when it proves the affected contract.
+- Set `found_by` to the lanes that reached the finding independently. Every entry must match a `review_process.passes[].lane`; the renderer rejects an unknown lane. Omit it when only one lane ran. Convergence across lanes is a stronger signal than a self-assigned score, so record it rather than folding it into `confidence`.
+- Put every candidate that was investigated and cleared in `disproved`, with the `claim` as it was raised and `why_not` naming the specific reason it fails. Include the evidence that settles it whenever a quote exists. This is not optional bookkeeping: an unrecorded disproof is re-litigated by the next reviewer, and re-argued questions are the most expensive kind. Record a disproof even when it was obvious to you.
 - Use one to three quiz items per unit only when they teach a decision, flow, invariant, or gotcha.
 - Record review mode, execution mode, merge base, every requested lane, and any limitations in `review_process`. Use pass status `completed`, `fallback`, or `failed`.
 - Prefix every architecture, invariant, and gotcha claim with `Observed:` or `Inference:` and include a path, symbol, or line reference in the claim.

@@ -28,6 +28,12 @@ Add the reviewed-head marker to the review body and the deterministic fingerprin
 
 For a code suggestion, generate the fenced `suggestion` block from separately validated replacement text immediately before submission. Suggestions are only valid on changed `RIGHT`-side lines. If the replacement or range is incomplete, submit prose instead.
 
+Immediately before calling the connector or `gh api`, print the full review for the user to read: the repository, PR number, review event, and every inline comment in full — `path`, `line`, `side`, the complete body text, and any suggestion block. Do not summarize; print all of it.
+
+Require explicit user confirmation of that printed review before submitting. A comment count is not sufficient confirmation — a reviewer cannot approve comments they have not read. If the user declines or does not respond, post nothing.
+
+The skill writes an in-flight marker at `<library_root>/pending/<owner>--<repo>-<pr>.json` when it renders the guide, and deletes it on confirmation or at the end of the run. A marker older than 2 hours is stale; ignore it.
+
 ## Publish the Wiki learning page
 
 GitHub Wikis are separate git repositories at `https://github.com/OWNER/REPO.wiki.git`.
