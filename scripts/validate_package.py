@@ -13,9 +13,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PLUGIN = ROOT / "plugins" / "pr-walkthrough"
-SKILL = PLUGIN / "skills" / "pr-walkthrough"
+SKILLS = PLUGIN / "skills"
 NAME = "pr-walkthrough"
-VERSION = "1.3.0"
+VERSION = "1.4.0"
+# Every script a skill ships must answer --self-check; that is the only test bed.
+SELF_CHECKS = {
+    "pr-walkthrough": ("scripts/parse_diff.py", "scripts/render_review.py"),
+    "pr-brief": ("scripts/render_brief.py",),
+}
 
 
 def load(relative: str) -> dict:
@@ -51,10 +56,13 @@ def main() -> None:
         assert manifest["name"] == NAME
         assert manifest["version"] == VERSION
 
-    skill_text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
-    assert skill_text.startswith("---\nname: pr-walkthrough\n")
-    for relative in ("scripts/parse_diff.py", "scripts/render_review.py"):
-        subprocess.run([sys.executable, str(SKILL / relative), "--self-check"], check=True)
+    found = sorted(p.name for p in SKILLS.iterdir() if (p / "SKILL.md").is_file())
+    assert found == sorted(SELF_CHECKS), f"skills on disk {found} do not match {sorted(SELF_CHECKS)}"
+    for skill, scripts in SELF_CHECKS.items():
+        text = (SKILLS / skill / "SKILL.md").read_text(encoding="utf-8")
+        assert text.startswith(f"---\nname: {skill}\n"), f"{skill}: frontmatter name must match the directory"
+        for relative in scripts:
+            subprocess.run([sys.executable, str(SKILLS / skill / relative), "--self-check"], check=True)
 
     hooks_manifest = load("plugins/pr-walkthrough/hooks/hooks.json")
     for command in hook_commands(hooks_manifest):

@@ -69,7 +69,20 @@ Read [context-grounding.md](references/context-grounding.md) for the cache shape
 
 ## 3. Run independent review passes
 
-Read [native-fleet.md](references/native-fleet.md). For any non-trivial PR, use up to three native subagents concurrently when the runtime exposes an allowed delegation capability:
+Read [native-fleet.md](references/native-fleet.md).
+
+**Size the fleet to the change before spawning anything.** Count changed hunks and
+whether the diff touches a risk surface: auth, permissions, persistence, migrations,
+concurrency, money, public contracts, or anything under a security path.
+
+| Change | Lanes | How |
+|---|---|---|
+| ≤ 5 hunks, no risk surface | 0 | Coordinator reviews it directly. Delegation costs more than it returns. |
+| ≤ 25 hunks, no risk surface | 1 | One combined lane; the coordinator takes the remaining rubric itself. |
+| any risk surface, or > 25 hunks | 2 | Correctness/security, then tests/contracts. Coordinator takes intent and standards. |
+| > 60 hunks with a risk surface | 3 | Full split below. |
+
+Only the largest tier justifies three lanes, and the rubrics are:
 
 1. stated intent, repository standards, scope drift, and unnecessary complexity;
 2. correctness, data flow, security, permissions, concurrency, reliability, and data integrity;
@@ -77,9 +90,11 @@ Read [native-fleet.md](references/native-fleet.md). For any non-trivial PR, use 
 
 Give each worker a self-contained immutable packet: repository and PR, base/merge-base/head SHAs, diff hash, assigned rubric, applicable repository guidance, hunk inventory, and the candidate-finding schema. Do not give it another worker's conclusions. Workers are read-only evidence gatherers: they must not invoke this skill, delegate again, edit, publish, comment, create issues, or change the checkout.
 
+**Bound each worker.** State in the packet: stop expanding context once the invariant and data flow behind a candidate are established, prefer the enclosing symbol and its direct callers over whole files, and return what you have rather than widening the search for completeness. A lane that reads the whole repository costs more than the finding is worth.
+
 The coordinator must wait for every requested pass, inspect any uncovered areas itself, independently verify every candidate, resolve disagreement from evidence, merge duplicates by root cause, and own all external writes. If native delegation is unavailable, disabled, capacity-limited, or fails, run the missing lanes sequentially with separate candidate lists and the same quality bar. Do not claim sequential passes had isolated contexts.
 
-For a trivial PR—at most two text hunks with no auth, persistence, concurrency, public contract, migration, or security impact—the coordinator may run the lanes itself without delegation.
+**Reuse an unchanged head.** Before reviewing, check the archive: `render_review.py --latest OWNER/REPOSITORY#NUMBER` prints a snapshot's `review.html`, with `guide.json` and `manifest.json` beside it. It prints the *latest* review, not necessarily this head — compare `manifest.json`'s `head_sha` to the SHA captured in section 1. On a match, and with the base unmoved, do not re-derive: read that `guide.json`, report what it found, and re-review only what the user asks for. A read-only rerun leaves no marker, so without this check every rerun repeats the full cost.
 
 ## 4. Partition every hunk into review units
 
@@ -215,6 +230,7 @@ Then offer the concrete follow-ups below, each labelled with exactly what it wri
 - submit the inline review to the PR — writes review comments;
 - draft/publish the Wiki learning page — writes a Wiki page;
 - create follow-up issues — writes issues;
-- plan fixes for the findings — writes nothing; produces a fix plan in chat.
+- plan fixes for the findings — writes nothing; produces a fix plan in chat;
+- summarize what this means for the product — writes nothing; hands off to `pr-brief`, which reuses this snapshot rather than re-reviewing.
 
 Reaffirm that with no publishing verb, the run is read-only and stays local. Do not offer to build a product around the workflow.

@@ -4,6 +4,10 @@ Portable agent skills by Mukul Chugh. One package, installed natively by Codex,
 Claude Code and Cursor through each host's own plugin manifest. Python standard
 library only — no dependencies, no build step, no runtime service.
 
+Two skills over the same pull request, for two different readers. **`pr-walkthrough`**
+reviews the code. **`pr-brief`** answers what it means for the product. Install once;
+both arrive.
+
 ## PR Walkthrough
 
 `pr-walkthrough` reviews a frozen GitHub pull request. It partitions every real
@@ -38,6 +42,36 @@ Before any inline comment is posted, every comment is printed in full — path,
 line, side, body — and requires confirmation. **A count is not confirmation.**
 On Claude Code a bundled hook enforces this; elsewhere the skill's own gate does.
 
+### Cost
+
+Review lanes are sized to the change, not to a flat policy — none under five hunks
+with no risk surface, one up to twenty-five, two once a risk surface is touched, and
+three only past sixty hunks *with* a risk surface. Lanes stop once the invariant and
+data flow are established rather than reading whole files, and a head that has already
+been reviewed is reused rather than re-derived.
+
+## PR Brief
+
+`pr-brief` is the other half. It answers what the change means for users and for the
+business, in one pass — no lanes, no subagents, no hunk partitioning. The deep read
+already exists in the walkthrough; if one was run against the same head SHA, the brief
+reuses its findings instead of repeating the work.
+
+One document, two moments:
+
+- **Before merge** — what a user can now do that they could not, who is affected and
+  at what scale, what breaks commercially if this is wrong, what is deliberately out
+  of scope, and which metric should move.
+- **After merge** — what shipped, what support, sales and docs each need to know, and
+  what to watch for.
+
+Every non-obvious claim cites a path, a line and a quote, listed in full at the bottom
+of the brief. The renderer rejects an empty evidence list. That constraint is the whole
+point: it is the difference between a brief and a press release.
+
+Product language only — no hunks, no symbols, no diff vocabulary. A reader who does not
+code can act on it.
+
 ## Install
 
 ### Claude Code
@@ -68,6 +102,9 @@ marketplace manifest is ready for submission; once listed, `/add-plugin` works t
 /pr-walkthrough publish wiki owner/repository#123    writes a Wiki page
 /pr-walkthrough create issues owner/repository#123   opens issues
 /pr-walkthrough plan fixes owner/repository#123     read-only, proposes changes
+
+/pr-brief owner/repository#123                       read-only
+/pr-brief comment owner/repository#123               posts one PR comment
 ```
 
 Reviews are archived under `~/.local/share/pr-walkthrough/reviews/`, keyed by
@@ -97,7 +134,7 @@ cached stack profile. Codex and Cursor behaviour is unchanged.
 python3 scripts/validate_package.py
 ```
 
-Checks every manifest, runs both script self-checks, and verifies each hook path
+Checks every manifest, runs every script's self-check, and verifies each hook path
 exists and is executable. No dependencies to install. CI runs it on Linux, macOS
 and Windows.
 

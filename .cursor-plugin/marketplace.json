@@ -10,7 +10,7 @@
     {
       "name": "pr-walkthrough",
       "source": "plugins/pr-walkthrough",
-      "description": "Review a pull request as evidence-backed logical units and a persistent HTML walkthrough."
+      "description": "Review a pull request as evidence-backed logical units, or brief its product and business impact."
     }
   ]
 }

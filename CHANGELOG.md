@@ -4,6 +4,43 @@ All notable changes to this repository are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] — 2026-08-08
+
+A second skill, and a review that stops paying for depth it does not need.
+
+### Added
+
+- **`pr-brief`** — a new skill answering what a pull request means for the product
+  and the business, rather than for the codebase. It answers two moments in one
+  document: before merge (what changes for users, who is affected, what breaks
+  commercially if it is wrong, what is out of scope, which metric should move) and
+  after merge (what shipped, what support, sales and docs each need to know, what
+  to watch). Every non-obvious claim carries a path, line and quote; the renderer
+  refuses an empty evidence list, which is what separates a brief from marketing.
+- **`render_brief.py`** — its own small renderer producing a self-contained HTML
+  document in the same visual language as the walkthrough, with none of the diff
+  machinery. Deliberately not built on the walkthrough renderer: this document has
+  no hunks, no modules and no per-line anchoring to justify the weight.
+- **Snapshot reuse across the two skills.** `pr-brief` looks for a walkthrough of
+  the same head SHA before reading anything, and reuses its findings rather than
+  re-deriving them. The walkthrough now offers the brief as a closing follow-up.
+
+### Changed
+
+- **Review lanes are now sized to the change.** The contract was binary — trivial
+  changes got one pass, everything else got three lanes — so a mid-sized PR paid
+  full-fleet cost for depth it could not use. Lanes now scale: none under five
+  hunks with no risk surface, one up to twenty-five, two once a risk surface is
+  touched, and three only past sixty hunks *with* a risk surface. A 57-hunk auth
+  change drops from three lanes to two.
+- **Workers are bounded.** A lane stops once the invariant and data flow are
+  established, prefers the enclosing symbol and its direct callers over whole
+  files, and returns a partial answer rather than widening its own scope. The run
+  that motivated this spent 439k tokens across 132 tool calls and had all three
+  lanes converge on the same finding.
+- **An unchanged head is not re-reviewed.** The archive is checked before any
+  re-derivation.
+
 ## [1.3.0] — 2026-08-06
 
 Dark mode, a theme control that remembers, and the brand mark in the header.

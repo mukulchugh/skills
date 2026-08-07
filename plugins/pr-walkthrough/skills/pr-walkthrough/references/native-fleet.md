@@ -6,11 +6,12 @@ Use one portable contract across runtimes. Do not require a particular agent nam
 
 1. Detect whether native delegation is exposed and allowed. Never block the review when it is absent.
 2. Give every worker a self-contained immutable packet: PR identity, frozen SHAs, diff hash and scope, repository guidance, rubric, and finding schema. Do not assume it inherits this skill, conversation history, file reads, or peer conclusions. Instruct it not to invoke this skill, delegate again, edit files, or publish anything.
-3. Run up to three read-only evidence passes concurrently: intent/standards; correctness/security/data flow; tests/compatibility/maintainability. Require path, changed-line anchor, priority, claim, triggering scenario, causal trace, exact evidence quotes, disproof checks, confidence, and suggested direction; `no finding` is valid.
-4. Wait for every requested pass. The coordinator verifies candidates against the current diff and code paths, rejects speculation, merges root causes, resolves disagreement, and records missing/failed lanes.
-5. Permit only the coordinator to render final findings or perform explicitly requested writes. Re-fetch the head SHA immediately before any GitHub mutation.
-6. When delegation is unavailable or a lane fails, run that lane sequentially with a separate candidate list. Call this logical separation, not context isolation.
-7. Keep over-engineering advice separate from correctness findings. It may shorten the change or become a review focus item, but it is actionable only when it causes concrete maintenance or behavior cost.
+3. Run the number of lanes the change earns, never a fixed three. Three lanes on a small diff converge on the same finding by three routes: that is a confidence signal bought at triple cost, and it is only worth buying when a defect would be expensive to miss. `SKILL.md` §3 holds the thresholds.
+4. Bound every worker. Give it a stopping rule, not just a rubric: stop once the invariant and data flow behind a candidate are established; prefer the enclosing symbol and its direct callers over whole files; return partial findings rather than widening for completeness. Require path, changed-line anchor, priority, claim, triggering scenario, causal trace, exact evidence quotes, disproof checks, confidence, and suggested direction; `no finding` is valid.
+5. Wait for every requested pass. The coordinator verifies candidates against the current diff and code paths, rejects speculation, merges root causes, resolves disagreement, and records missing/failed lanes.
+6. Permit only the coordinator to render final findings or perform explicitly requested writes. Re-fetch the head SHA immediately before any GitHub mutation.
+7. When delegation is unavailable or a lane fails, run that lane sequentially with a separate candidate list. Call this logical separation, not context isolation.
+8. Keep over-engineering advice separate from correctness findings. It may shorten the change or become a review focus item, but it is actionable only when it causes concrete maintenance or behavior cost.
 
 ## Runtime adapters
 
